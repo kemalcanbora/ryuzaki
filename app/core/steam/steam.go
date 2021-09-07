@@ -29,7 +29,10 @@ func Parser(steamId string) []byte {
 	return bytes
 }
 
-func GetAllGames() []byte {
+func GetAllGames() []struct {
+	Appid int    `json:"appid"`
+	Name  string `json:"name"`
+} {
 	resp, err := http.Get("http://api.steampowered.com/ISteamApps/GetAppList/v0002/")
 	if err != nil {
 		log.Fatal("Game Parser Problem")
@@ -41,6 +44,5 @@ func GetAllGames() []byte {
 		log.Fatal("Steam Mapping Error")
 	}
 
-	bytes, _ := json.Marshal(steamGames.Applist)
-	return bytes
+	return steamGames.Applist.Apps
 }

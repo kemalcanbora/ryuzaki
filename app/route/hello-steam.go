@@ -21,8 +21,13 @@ func HelloSteam(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(app))
 }
 
-func GetAllGamesInSteam(w http.ResponseWriter, r *http.Request) {
+func GetAllGamesInSteam() {
 	app := steam_app.GetAllGames()
-	kafka.Producer("steamgames", app)
-	fmt.Fprintf(w, string("OK"))
+	for _, game := range app {
+		user := &schema.SteamGames{Appid: game.Appid,
+			Name: game.Name}
+		fmt.Println(user)
+		bytes, _ := json.Marshal(user)
+		kafka.Producer("steamgames", bytes)
+	}
 }

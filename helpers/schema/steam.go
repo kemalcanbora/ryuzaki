@@ -25,3 +25,8 @@ type SteamGetAllGames struct {
 		} `json:"apps"`
 	} `json:"applist"`
 }
+
+type SteamGames struct {
+	Appid int    `json:"appid"`
+	Name  string `json:"name"`
+}
