@@ -7,6 +7,7 @@ import (
 	steam_app "ryuzaki/app/core/steam"
 	schema "ryuzaki/helpers/schema"
 	kafka "ryuzaki/platform/streaming"
+	"strconv"
 )
 
 func HelloSteam(w http.ResponseWriter, r *http.Request) {
@@ -17,17 +18,15 @@ func HelloSteam(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app := steam_app.Parser(steamSchema.UserId)
-	kafka.Producer("jungle", app)
+	kafka.Producer("jungle", app, []byte(steamSchema.UserId))
 	fmt.Fprintf(w, string(app))
 }
 
 func GetAllGamesInSteam() {
 	app := steam_app.GetAllGames()
 	for _, game := range app {
-		user := &schema.SteamGames{Appid: game.Appid,
-			Name: game.Name}
-		fmt.Println(user)
+		user := &schema.SteamGames{Appid: game.Appid, Name: game.Name}
 		bytes, _ := json.Marshal(user)
-		kafka.Producer("steamgames", bytes)
+		kafka.Producer("steamgames", bytes, []byte(strconv.Itoa(game.Appid)))
 	}
 }

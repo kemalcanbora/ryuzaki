@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func Producer(topic string, data []byte) {
+func Producer(topic string, data []byte, key []byte) {
 	helpers.GetEnv()
 	kafkaHost := os.Getenv("DOCKER_KAFKA_HOST")
 	partition := 0
@@ -21,7 +21,7 @@ func Producer(topic string, data []byte) {
 	conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
 
 	_, err = conn.WriteMessages(
-		kafka.Message{Value: data},
+		kafka.Message{Value: data, Key: key},
 	)
 
 	if err != nil {
