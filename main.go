@@ -1,13 +1,14 @@
 package main
 
 import (
+	"github.com/gorilla/mux"
 	"net/http"
-	core_app "ryuzaki/app/core"
+	route "ryuzaki/app/route"
 )
 
 func main() {
-	handler := http.NewServeMux()
-	handler.HandleFunc("/api/hello", core_app.SayHello)
+	handler := mux.NewRouter()
+	handler.HandleFunc("/api/steam", route.HelloSteam).Methods("POST")
 	err := http.ListenAndServe("0.0.0.0:8080", handler)
 	if err != nil {
 		return
