@@ -1,3 +1,6 @@
 - pipeline.id: pipeline_jungle
   path.config: "/usr/share/logstash/pipeline/jungle.conf"
   pipeline.workers: 1
+- pipeline.id: pipeline_steamgames
+  path.config: "/usr/share/logstash/pipeline/steam_games.conf"
+  pipeline.workers: 1

@@ -28,3 +28,19 @@ func Parser(steamId string) []byte {
 	bytes, _ := json.Marshal(steamSchema.Response)
 	return bytes
 }
+
+func GetAllGames() []byte {
+	resp, err := http.Get("http://api.steampowered.com/ISteamApps/GetAppList/v0002/")
+	if err != nil {
+		log.Fatal("Game Parser Problem")
+	}
+	var steamGames schema.SteamGetAllGames
+	steamErr := json.NewDecoder(resp.Body).Decode(&steamGames)
+
+	if steamErr != nil {
+		log.Fatal("Steam Mapping Error")
+	}
+
+	bytes, _ := json.Marshal(steamGames.Applist)
+	return bytes
+}

@@ -20,3 +20,9 @@ func HelloSteam(w http.ResponseWriter, r *http.Request) {
 	kafka.Producer("jungle", app)
 	fmt.Fprintf(w, string(app))
 }
+
+func GetAllGamesInSteam(w http.ResponseWriter, r *http.Request) {
+	app := steam_app.GetAllGames()
+	kafka.Producer("steamgames", app)
+	fmt.Fprintf(w, string("OK"))
+}

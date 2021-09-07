@@ -16,3 +16,12 @@ type SteamMapping struct {
 type SteamReqBody struct {
 	UserId string `json:"userId"`
 }
+
+type SteamGetAllGames struct {
+	Applist struct {
+		Apps []struct {
+			Appid int    `json:"appid"`
+			Name  string `json:"name"`
+		} `json:"apps"`
+	} `json:"applist"`
+}
